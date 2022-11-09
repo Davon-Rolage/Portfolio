@@ -1,4 +1,5 @@
 # Double_Lyrics
+last UPD on Feb 10 2022
 
 This project creates a double lyrics text file using `googletrans` module.
 Also there's a Timer class in the `timer.py` file that is used inside a context manager to measure execution time.
