@@ -88,13 +88,13 @@ if __name__ == '__main__':
     mode = input(messages['mode'])
     mode = 'a' if not mode == 'w' else mode
     print(messages['chosen_mode'], mode)
-    save_path = r'C:\Users\boroda\Desktop'
+    save_path = r'C:\Users\nebula\Desktop'
     name_of_file = input(messages['name_of_file'])
     name_of_file = 'foobar' if name_of_file == '' else name_of_file
     print(messages['chosen_name'], name_of_file)
     complete_name = os.path.join(save_path, name_of_file + ".txt")
 
-    with open(complete_name, mode) as f:
+    with open(complete_name, mode, encoding='utf-8') as f:
 
         lines = make_some_palindromes(
             ask_user('length'),
