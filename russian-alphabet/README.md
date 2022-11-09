@@ -1,4 +1,6 @@
 # russian-alphabet
+last UPD on Jul 28 2022
+
 The code adds strings of Russian letters in lowercase and uppercase.
 It includes three variables *rus_lowercase*, *rus_uppercase*, and *rus_letters* similar to *ascii_letters* used in the *string* library.
 
