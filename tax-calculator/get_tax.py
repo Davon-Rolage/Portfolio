@@ -4,7 +4,6 @@ import tkinter as tk
 import tkinter.font as font
 from tkinter import ttk
 from tkinter import messagebox
-import pendulum
 
 
 class Ui_MainWindow():
@@ -147,8 +146,6 @@ class Ui_MainWindow():
         self.apply_lang(self.user_lang)
 
         if DEBUG:
-            self.now = pendulum.now().to_formatted_date_string()
-
             self.frm_debug = tk.Frame(root)
             self.frm_debug.place(x=.01, y=.01)
 
@@ -156,13 +153,6 @@ class Ui_MainWindow():
                 self.frm_debug, text="DEBUG IS ON", bg='yellow')
             self.lbl_config_on.grid(row=1, column=1, sticky='w')
 
-            self.lbl_update_date = tk.Label(
-                self.frm_debug,
-                text=f'{self.update_date}\n\ncurrent date: {self.now}',
-                font=('Arial', 8),
-                bg='yellow'
-            )
-            self.lbl_update_date.grid(row=3, column=1, columnspan=2)
 
     def apply_lang(self, user_lang):
         self.messages = LangInterface(user_lang).messages

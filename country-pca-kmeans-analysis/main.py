@@ -1,14 +1,14 @@
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 from collections import Counter
-from kneed import KneeLocator
-
-from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
-from sklearn.cluster import KMeans
-from PyQt5 import QtCore, QtGui, QtWidgets
 from tkinter.filedialog import askopenfile, asksaveasfilename
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from kneed import KneeLocator
+from PyQt5 import QtCore, QtGui, QtWidgets
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
 
 class Ui_MainWindow(object):
@@ -310,9 +310,6 @@ class Ui_MainWindow(object):
         self.dataframe.set_index(self.dataframe.columns[0], inplace=True)
         
         self.lbl_open.setText(self.file_location)
-        with open('data.csv', 'w', encoding='utf-8') as f:
-            df = pd.read_csv(self.file_location)
-            df.to_csv(f)
 
     def increase_1(self):
         k = int(self.lbl_k.text())
@@ -384,10 +381,6 @@ class Ui_MainWindow(object):
 
         x = df.values
         x = StandardScaler().fit_transform(x)
-
-        # # Check whether values are normalised. Mean should be 0, standard deviation = 1
-        # for key, i in enumerate(x.T, start=1):
-        #     print(f'Mean value {key}: {i.mean().round(5)}, Standard deviation: {i.std().round(5)}')
 
         pca = PCA(n_components=2)
         principalComponent_countries = pca.fit_transform(x)

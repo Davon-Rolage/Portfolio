@@ -3,10 +3,9 @@ import random as r
 import string as s
 import os
 
+
 ALPHABET = s.ascii_letters + rus_alphabet.rus_letters
-STUPIDITY_THRESHOLD = 5
 DEFAULT = 5
-counter = 0
 
 
 def make_palindrome(length):
@@ -18,37 +17,17 @@ def make_palindrome(length):
 
 
 def make_some_palindromes(length=5, amount=5):
-    global counter
-    array = [make_palindrome(length) for u in range(amount)]
-    fin = []
-    # for k, pal in enumerate(array, start=1):
-    #     fin.append(f'{k}. {pal}\n')
-    # if counter == 5:
-    #     fin.append(f'Take a cookie from the shelf. You IQ is -{amount}')
-    # return fin
+    array = [make_palindrome(length) for _ in range(amount)]
     return '\n'.join(array)
 
 
-def get_user_input(question):
-    answer = input(messages[question])
-    return answer
-
-
 def ask_user(command):
-    global STUPIDITY_THRESHOLD
-    global counter
-    wrong_answer = True
-
-    while wrong_answer:
+    while True:
         try:
-            return int(get_user_input(command))
-        except ValueError as e:
-            if counter == STUPIDITY_THRESHOLD:
-                print(f"____\nI'm done with you, get outta here. Chosen {command} -> {DEFAULT}")
-                return DEFAULT
-            else:
-                counter += 1
-            print(f'Wrong input. Try again {counter}/{DEFAULT}')
+            return int(input(messages[command]))
+
+        except ValueError:
+            return DEFAULT
 
 
 if __name__ == '__main__':
@@ -56,7 +35,7 @@ if __name__ == '__main__':
         'eng': {
             'mode': 'Write or Append? (w / a)\n',
             'chosen_mode': 'Chosen mode ->',
-            'name_of_file': "What is the name of the file: ",
+            'file_name': "What is the name of the file: ",
             'chosen_name': 'Chosen name ->',
             'length': 'Length of the words: ',
             'chosen_length': 'Chosen length ->',
@@ -67,7 +46,7 @@ if __name__ == '__main__':
         'rus': {
             'mode': 'Перезаписать или Дописать? (w / a)\n',
             'chosen_mode': 'Выбранный режим ->',
-            'name_of_file': 'Придумайте имя файла: ',
+            'file_name': 'Придумайте имя файла: ',
             'chosen_name': 'Выбранное имя ->',
             'length': 'Какова длина слов: ',
             'chosen_length': 'Выбранная длина ->',
@@ -88,14 +67,13 @@ if __name__ == '__main__':
     mode = input(messages['mode'])
     mode = 'a' if not mode == 'w' else mode
     print(messages['chosen_mode'], mode)
-    save_path = r'C:\Users\nebula\Desktop'
-    name_of_file = input(messages['name_of_file'])
-    name_of_file = 'foobar' if name_of_file == '' else name_of_file
-    print(messages['chosen_name'], name_of_file)
-    complete_name = os.path.join(save_path, name_of_file + ".txt")
-
+    save_path = os.getcwd()
+    file_name = input(messages['file_name'])
+    file_name = 'foobar' if file_name == '' else file_name
+    print(messages['chosen_name'], file_name)
+    
+    complete_name = os.path.join(save_path, file_name + ".txt")
     with open(complete_name, mode, encoding='utf-8') as f:
-
         lines = make_some_palindromes(
             ask_user('length'),
             ask_user('amount')

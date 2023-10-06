@@ -1,14 +1,14 @@
 import os
-import sys
-import pandas as pd
 import secrets as s
-from math import sqrt
+import sys
 import tkinter as tk
-from tkinter.filedialog import askopenfilename, asksaveasfilename
-import matplotlib.pyplot as plt
-import seaborn as sns
-from math import factorial
+from math import factorial, sqrt
 from time import time
+from tkinter.filedialog import askopenfilename, asksaveasfilename
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
 
 
 class Figure:
@@ -40,7 +40,7 @@ Statistical population mean value of {self.name}: {self.general_average:.2f}
 _____''')
 
 
-def how_many_combinations(a, b):
+def num_combinations(a, b):
     fin = factorial(b) / (factorial(a) * factorial(b - a))
     fin_text = f'''Number of possible samples of size n = {a} for N = {b} is:
 {fin:,.0f}'''
@@ -63,11 +63,9 @@ def check_conf_interval(stat_population_mean, lower_bound, upper_bound, title='v
     # Проверка, входит ли генеральная средняя в доверительный интервал.
     # Statistical population mean = Средняя генеральной совокупности.
     if lower_bound <= stat_population_mean <= upper_bound:
-        # print(f'Population mean for {title} is within the confidence interval!')
         message = f'{lower_bound:.1f} <= {stat_population_mean:.2f} <= {upper_bound:.2f} ({title})'
         return message
 
-    # print(f'Unfortunately, population mean for {title} is not within the confidence interval:')
     if stat_population_mean < lower_bound:
         return f'__{stat_population_mean:.3f}__ < {lower_bound:.3f} < {upper_bound:.1f} ({title})'
 
@@ -202,7 +200,6 @@ def make_calculations():
 
     df['Население'] = df['Мужчины'] + df['Женщины']
 
-    # Must specify column's name (Мужчины, Женщины или Население)
     average_population = round(df['Население'].mean(numeric_only=True), 3)
     average_income = round(df['Доходы'].mean(numeric_only=True), 3)
     average_consumption = round(df['Расходы'].mean(numeric_only=True), 3)
@@ -317,7 +314,7 @@ def make_calculations():
     population_report = population.describe()
     end_clock = time()
     report = f'''It took {end_clock - start_clock:.2f} seconds to complete the report.
-{how_many_combinations(sample_size, 85)}
+{num_combinations(sample_size, 85)}
 Number of iterations i = {iterations} for sample size n = {sample_size}
 Level of confidence is set at {(1 - alpha) * 100}%. t-value = {t}
 

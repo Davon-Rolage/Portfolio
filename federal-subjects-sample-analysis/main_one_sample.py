@@ -1,10 +1,8 @@
 import os
-
 import pandas as pd
-import numpy as np
 import secrets as s
-from math import sqrt
 import tkinter as tk
+from math import sqrt
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
 

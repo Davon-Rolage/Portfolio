@@ -1,17 +1,15 @@
-import sys
 import os
+import re
+import sys
+import tkinter as tk
+from tkinter import filedialog, ttk
 
 import pandas as pd
-import numpy as np
-import tkinter as tk
-from tkinter import messagebox
-from tkinter import ttk, filedialog
-import re
 
 
 class Ui_MainWindow():
     def __init__(self, master):
-        self.user_lang = 'rus'
+        self.user_lang = 'en'
         self.lang_interface()
 
         self.frm_open_file = tk.Frame(master, width=100)
@@ -47,9 +45,9 @@ class Ui_MainWindow():
         self.my_tree = ttk.Treeview(self.frm_report)
 
         self.btn_rus = tk.Button(
-            self.frm_lang, width=8, text='Русский', command=lambda: self.apply_lang('rus'))
+            self.frm_lang, width=8, text='Русский', command=lambda: self.apply_lang('ru'))
         self.btn_eng = tk.Button(
-            self.frm_lang, width=8, text='English', command=lambda: self.apply_lang('eng'))
+            self.frm_lang, width=8, text='English', command=lambda: self.apply_lang('en'))
 
         self.btn_exit = tk.Button(
             self.frm_lang, width=7, text=self.messages['btn_exit'], command=sys.exit)
@@ -72,7 +70,7 @@ class Ui_MainWindow():
         self.lbl_ideas = tk.Label(
             self.frm_ideas,
             justify='left',
-            text='''            ***New Features***
+            text='''            *** To be added ***
         1. Add regular expression to phone numbers
         2. Make new column adjacent to old phone numbers
         3. Get rid of the second-row-checking bug
@@ -124,17 +122,24 @@ class Ui_MainWindow():
         if self.lbl_open['text'] == '':
             return
         num_column = None
-        for i in range(len(self.df.columns)):
-            result = self.format_number(self.df.iloc[1, i])
-            is_result = re.search('[0-9] [0-9]{3} * [0-9]', result)
-            if is_result:
-                num_column = i
+        flag = False
+        for row in range(20):
+            for column in range(len(self.df.columns)):
+                result = self.format_number(self.df.iloc[row, column])
+                print(result)
+                is_result = re.search('[0-9] [0-9]{3} * [0-9]', result)
+                if is_result:
+                    num_column = column
+                    flag = True
+                    break
+            if flag:
                 break
-        else:
-            no_phone_column_error = self.messages['no_phone_column_error']
-            tk.messagebox.showerror(
-                title=self.messages['no_phone_column_error_title'], message=no_phone_column_error)
-            return
+            
+            else:
+                no_phone_column_error = self.messages['no_phone_column_error']
+                tk.messagebox.showerror(
+                    title=self.messages['no_phone_column_error_title'], message=no_phone_column_error)
+                return
 
         fin = [self.format_number(num) for num in self.df.iloc[:, num_column]]
         self.df[self.messages['new_numbers_column_title']] = fin
@@ -192,12 +197,12 @@ class Ui_MainWindow():
 
     def lang_interface(self):
         self.lang_dct = {
-            'eng': {
+            'en': {
                 'window_title': 'Phone Number Formatting',
                 'btn_open': 'Open file',
                 'btn_proceed': 'Format Numbers',
                 'btn_save': 'Save file',
-                'btn_open_report': 'Open Report',
+                'btn_open_report': 'Open Saved File',
                 'lbl_preview': 'Preview',
                 'no_phone_column_error': "Couldn't find a column with phone numbers!",
                 'no_phone_column_error_title': 'No phone numbers to format',
@@ -207,12 +212,12 @@ class Ui_MainWindow():
                 'saved_at': 'Saved at:',
                 'btn_exit': 'Exit'
             },
-            'rus': {
+            'ru': {
                 'window_title': 'Форматирование номеров телефона',
                 'btn_open': 'Открыть',
                 'btn_proceed': 'Форматировать',
                 'btn_save': 'Сохранить файл',
-                'btn_open_report': 'Открыть отчёт',
+                'btn_open_report': 'Открыть сохр. файл',
                 'lbl_preview': 'Предварительный просмотр',
                 'no_phone_column_error': "Не удалось найти колонки с номерами телефона!",
                 'no_phone_column_error_title': 'Нет телефона для форматирования',

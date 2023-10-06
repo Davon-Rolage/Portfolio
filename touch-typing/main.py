@@ -2,8 +2,6 @@ import random as r
 
 
 ALPHABET = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
-# ALPHABET = ''
-
 
 def make_word():
     global ALPHABET
@@ -18,7 +16,7 @@ def make_sentence():
 
 
 def check_input(user_input, sent):
-    message = 'Поздравляем! Вы красавчик.'
+    message = 'Поздравляем! Всё введено верно.'
 
     wrong_input = True
     while wrong_input:
